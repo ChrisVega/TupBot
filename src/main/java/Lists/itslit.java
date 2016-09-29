@@ -88,7 +88,31 @@ public class itslit {
                         "https://www.youtube.com/watch?v=TccScBS9obk",
                         "https://www.youtube.com/watch?v=fTlw3T44ynk",
                         "https://www.youtube.com/watch?v=K8ZDlDF2s_4",
-                        "https://youtu.be/ZXVhOPiM4mk"));
+                        "https://youtu.be/ZXVhOPiM4mk",
+                        "https://youtu.be/5pwe2ORfqLs",
+                        "https://youtu.be/bitQB9wodGs",
+                        "https://youtu.be/zG_3U23h62I",
+                        "https://youtu.be/wVeL-ue47Ao",
+                        "https://www.youtube.com/watch?v=M8-vje-bq9c&feature=youtu.be",
+                        "https://www.youtube.com/watch?v=oA6UYTbOEMQ",
+                        "https://youtu.be/9u9vlj8CgS0",
+                        "https://youtu.be/A-UwyygwaFU",
+                        "https://youtu.be/BGdHRU1jDQo",
+                        "https://youtu.be/tt1hqcpSfgA",
+                        "https://youtu.be/pG2kzTRUAtU",
+                        "https://youtu.be/94iNeDVfzSg",
+                        "https://youtu.be/M8M-0dTY_tA",
+                        "https://www.youtube.com/watch?v=BGdHRU1jDQo",
+                        "https://www.youtube.com/watch?v=onZcB3y2RTM&feature=youtu.be",
+                        "https://www.youtube.com/watch?v=JwS0Ek8mahY",
+                        "https://www.youtube.com/watch?v=19ZFHaQMifU",
+                        "https://www.youtube.com/watch?v=wNuUIuiLRdE",
+                        "https://youtu.be/tGfkdHUAoU8",
+                        "https://www.youtube.com/watch?v=spmG1MiOu2U",
+                        "https://youtu.be/cAPFojgu86g",
+                        "https://youtu.be/kyNq0aHrMxc",
+                        "https://youtu.be/wfuNckNfdmk",
+                        "https://youtu.be/y4TJ_H_fbwM"));
     }
 
     public String litaf() {

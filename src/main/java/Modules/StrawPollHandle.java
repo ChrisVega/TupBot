@@ -13,8 +13,8 @@ import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.HTTP429Exception;
 import sx.blah.discord.util.MissingPermissionsException;
+import sx.blah.discord.util.RateLimitException;
 
 public class StrawPollHandle {
      private Map<IGuild, StrawPoll> currentpolls = new HashMap<IGuild, StrawPoll>();
@@ -23,7 +23,7 @@ public class StrawPollHandle {
          currentpolls = new HashMap<IGuild, StrawPoll>();
      }
      
-     public void addpoll(IMessage message, String poll, int size) throws MissingPermissionsException, HTTP429Exception, DiscordException{
+     public void addpoll(IMessage message, String poll, int size) throws MissingPermissionsException, DiscordException, RateLimitException{
          if(currentpolls.containsKey(message.getGuild())){
              message.reply("There is already a poll in progress.");
          }else{
@@ -35,7 +35,7 @@ public class StrawPollHandle {
          }
      }
      
-     public void addvote(IGuild G, int vote, IMessage M) throws MissingPermissionsException, HTTP429Exception, DiscordException{
+     public void addvote(IGuild G, int vote, IMessage M) throws MissingPermissionsException, DiscordException, RateLimitException{
          if(currentpolls.containsKey(G)){
              currentpolls.get(G).addvote(M, vote);
          }else{
@@ -51,7 +51,7 @@ public class StrawPollHandle {
          return currentpolls.get(G);
      }
      
-     public void castvotes(IGuild G, IChannel C) throws MissingPermissionsException, HTTP429Exception, DiscordException {
+     public void castvotes(IGuild G, IChannel C) throws MissingPermissionsException, DiscordException {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
 
@@ -59,8 +59,10 @@ public class StrawPollHandle {
                 try {
                     C.sendMessage(getpoll(G).getresults());
                     removepoll(G);
-                } catch (MissingPermissionsException | HTTP429Exception | DiscordException ex) {
+                } catch (MissingPermissionsException | DiscordException ex) {
                     Logger.getLogger(AnnotationListener.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RateLimitException ex) {
+                    Logger.getLogger(StrawPollHandle.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 

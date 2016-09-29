@@ -9,27 +9,29 @@ import sx.blah.discord.handle.impl.events.GuildCreateEvent;
 import sx.blah.discord.handle.impl.events.MentionEvent;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.events.UserUpdateEvent;
-import sx.blah.discord.handle.impl.events.UserVoiceStateUpdateEvent;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 import Modules.MessageOnMention;
-import sx.blah.discord.util.HTTP429Exception;
+import sx.blah.discord.Discord4J;
+import sx.blah.discord.handle.impl.events.DiscordDisconnectedEvent;
 
 public class AnnotationListener {
 
-    private static IDiscordClient api = TestBot.bot.getclient();
+    final private static IDiscordClient api = TestBot.bot.getclient();
     private Command Command = new Command();
     private MessageOnMention MOnMention = new MessageOnMention();
     private IMessage message;
 
     @EventSubscriber
-    public void onMessage(MessageReceivedEvent event) throws MissingPermissionsException, RateLimitException, DiscordException, HTTP429Exception{
+    public void onMessage(MessageReceivedEvent event) throws MissingPermissionsException, RateLimitException, DiscordException{
         message = event.getMessage();
-        if (message.toString().startsWith("#")||message.toString().equals("ping")) {
+        if (message.toString().startsWith("#")||message.toString().toLowerCase().equals("ping")) {
             String[] arr = message.toString().split(" ");
-            hmap.get(arr[0].toLowerCase()).run();
+            if(hmap.containsKey(arr[0].toLowerCase())) {
+                hmap.get(arr[0].toLowerCase()).run();
+            }
         }else if(!message.getMentions().isEmpty()){
             MOnMention.sendPMs(message.getMentions(), api, message);
         }
@@ -44,15 +46,6 @@ public class AnnotationListener {
     @EventSubscriber
     public void onGuildCreate(GuildCreateEvent event) {
         Command.joinGuild(event);
-    }
-
-    @EventSubscriber
-    public void onUserVoiceStateUpdateEvent(UserVoiceStateUpdateEvent event) {
-        try {
-            if (event == null || event.getChannel() == null || event.getUser() == null) {
-            }
-        } catch (Exception e) {
-        }
     }
 
     @EventSubscriber
@@ -86,6 +79,7 @@ public class AnnotationListener {
                 put("#helpdebug", () -> Command.helpDebug(message));
                 put("#helpgames", () -> Command.helpGames(message));
                 put("#hghelp", () -> Command.HGHelp(message));
+                put("#helpmusic", () -> Command.helpMusic(message));
                 put("#mod", () -> Command.helpMod(message));
                 put("#helpmod/admin", () -> Command.helpMod(message));
                 put("#about", () -> Command.about(message));
@@ -97,12 +91,15 @@ public class AnnotationListener {
                 put("#google", () -> Command.Google(message));
                 put("#reddit", () -> Command.Reddit(message));
                 put("#urban", () -> Command.UrbanDictionary(message));
-                put("#poll", () -> Command.Poll(message));
+                put("#poll,", () -> Command.Poll(message));
                 put("#vote", () -> Command.vote(message));
-                put("#dice", () -> Command.roll(message));
+                put("#roll", () -> Command.roll(message));
                 put("#msgonm", () -> Command.MsgOnM(message));
                 put("#rmvonm", () -> Command.RmvOnM(message));
+                put("#nyan", () -> Command.Nyan(message));
+                put("#gabe", () -> Command.Gabe(message));
                 put("#lit", () -> Command.lit(message));
+                put("#bern", () -> Command.Bern(message));
                 put("#papas", () -> Command.PapaJ(message));
                 put("#pres", () -> Command.Presence(message));
                 put("#getdis", () -> Command.getDiscriminator(message));
@@ -117,7 +114,7 @@ public class AnnotationListener {
                 put("#hgcustom", () -> Command.HGCustom(message));
                 put("#hgusers", () -> Command.HGUsers(message));
                 put("#nextturn", () -> Command.nextTurn(message));
-                put("#berfor", () -> Command.betFor(message));
+                put("#betfor", () -> Command.betFor(message));
                 put("#betagainst", () -> Command.betAgainst(message));
                 put("#acc", () -> Command.Account(message));
                 put("#votekick", () -> Command.voteKick(message));
@@ -129,7 +126,21 @@ public class AnnotationListener {
                 put("#vkp", () -> Command.voteKickPercentage(message));
                 put("#vkk", () -> Command.voteKickSettings(message));
                 put("#msgwipe", () -> Command.messageWipe(message));
-                
+                put("#music", () -> Command.music(message));
+                put("#play", () -> Command.play(message));
+                put("#volume", () -> Command.volume(message));
+                put("#stop", () -> Command.stop(message));
+                put("#leave", () -> Command.leave(message));
+                put("#pause", () -> Command.pause(message));
+                put("#stop", () -> Command.stop(message));
+                put("#skip", () -> Command.skip(message));
+                put("#nowplaying", () -> Command.nowplaying(message));
+                put("#list", () -> Command.list(message));
+                put("#restart", () -> Command.restart(message));
+                put("#repeat", () -> Command.repeat(message));
+                put("#reset", () -> Command.reset(message));
+                put("#shuffle", () -> Command.shuffle(message));
+                put("#slots", () -> Command.slots(message));
             }
         };
     }

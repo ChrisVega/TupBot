@@ -24,8 +24,8 @@ import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.handle.obj.Permissions;
 import sx.blah.discord.handle.obj.Presences;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.HTTP429Exception;
 import sx.blah.discord.util.MissingPermissionsException;
+import sx.blah.discord.util.RateLimitException;
 
 public class Votehandle {
     private Map<IGuild, Votecommands> currentvotes = new HashMap<IGuild, Votecommands>();
@@ -80,7 +80,7 @@ public class Votehandle {
         
     }
     
-    public void castvotes(IGuild G, IChannel C, String bannie, IUser U,IDiscordClient api) throws MissingPermissionsException, HTTP429Exception, DiscordException {
+    public void castvotes(IGuild G, IChannel C, String bannie, IUser U,IDiscordClient api) throws MissingPermissionsException, DiscordException {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
 
@@ -95,15 +95,17 @@ public class Votehandle {
                         }
                     }
                     removevote(G);
-                } catch (MissingPermissionsException | HTTP429Exception | DiscordException ex) {
+                } catch (MissingPermissionsException | DiscordException ex) {
                     Logger.getLogger(AnnotationListener.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RateLimitException ex) {
+                    Logger.getLogger(Votehandle.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
         }, getvotsesh(G).gettimer());
     }
     
-    private void mute(IGuild G, IUser U,IChannel C) throws MissingPermissionsException, HTTP429Exception, DiscordException{
+    private void mute(IGuild G, IUser U,IChannel C) throws MissingPermissionsException, DiscordException, RateLimitException{
         List<IRole> Uroles = G.getUserByID(U.getID()).getRolesForGuild(G);
         if(!G.getRoles().toString().contains("OniiMute")){
             IRole R = G.createRole();
@@ -122,8 +124,6 @@ public class Votehandle {
                 G.editUserRoles(U, Uroles.toArray(new IRole[Uroles.size()]));
             } catch (MissingPermissionsException ex) {
                 C.sendMessage("Can not eddit roles on this server");
-            } catch (HTTP429Exception ex) {
-                Logger.getLogger(Votehandle.class.getName()).log(Level.SEVERE, null, ex);
             } catch (DiscordException ex) {
                 Logger.getLogger(Votehandle.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -78,7 +78,7 @@ public class EventHandle {
             Dayn = Dayn + 1;
             return s;
         }
-        return "An error occured";
+        return "you really fucked up";
     }
 
     private String bbfatal(ArrayList<Tribute> t, ArrayList<EventObj> a, ArrayList<EventObj> b) {

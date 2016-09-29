@@ -14,8 +14,8 @@ import sx.blah.discord.Discord4J;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.HTTP429Exception;
 import sx.blah.discord.util.MissingPermissionsException;
+import sx.blah.discord.util.RateLimitException;
 
 public class NameHistory implements Serializable{
 
@@ -43,7 +43,7 @@ public class NameHistory implements Serializable{
         }
     }
     
-    public void getnames(IMessage m) throws MissingPermissionsException, HTTP429Exception, DiscordException{
+    public void getnames(IMessage m) throws MissingPermissionsException, DiscordException, RateLimitException{
         IUser mUser = m.getMentions().get(0);
         int x = search(mUser.getID());
         if(x!=-1){

@@ -8,8 +8,8 @@ import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.HTTP429Exception;
 import sx.blah.discord.util.MissingPermissionsException;
+import sx.blah.discord.util.RateLimitException;
 
 public class Bettinggame {//firs users can enter game to roll for dubs if a user wants to bet the start off with 1000
 
@@ -43,7 +43,7 @@ public class Bettinggame {//firs users can enter game to roll for dubs if a user
         return users;
     }
 
-    public void addbetfor(IUser u, float f) throws MissingPermissionsException, HTTP429Exception, DiscordException {
+    public void addbetfor(IUser u, float f) throws MissingPermissionsException, DiscordException, RateLimitException {
         if (search(u) == -1) {
             users.add(new better(u, 0, false));
         }
@@ -56,7 +56,7 @@ public class Bettinggame {//firs users can enter game to roll for dubs if a user
         }
     }
 
-    public void addbetagainst(IUser u, float f) throws MissingPermissionsException, HTTP429Exception, DiscordException {
+    public void addbetagainst(IUser u, float f) throws MissingPermissionsException, DiscordException, RateLimitException {
         if (search(u) == -1) {
             users.add(new better(u, 0, true));
         }
@@ -99,7 +99,7 @@ public class Bettinggame {//firs users can enter game to roll for dubs if a user
         return betagainst;
     }
 
-    public void calcearnings() throws MissingPermissionsException, HTTP429Exception, DiscordException {
+    public void calcearnings() throws MissingPermissionsException, DiscordException, RateLimitException {
         IUser cuser;
         if (outcome) {//user loses
             for (int i = 0; i < users.size(); i++) {

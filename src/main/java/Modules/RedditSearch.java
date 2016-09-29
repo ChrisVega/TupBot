@@ -20,7 +20,7 @@ public class RedditSearch {
 
     UserAgent myUserAgent = UserAgent.of("", "", "", "");
     RedditClient redditClient = new RedditClient(myUserAgent);
-    Credentials credentials = Credentials.script("Reddit account", "Reddit pass word", "", "");
+    Credentials credentials = Credentials.script("", "", "", "");
 
     public RedditSearch(){
         OAuthData authData = null;

@@ -16,7 +16,6 @@ import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.HTTP429Exception;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 
@@ -28,7 +27,7 @@ public class MessageOnMention implements Serializable{
         Load();
     }
     
-    public void adduser(IMessage m, IUser u,IDiscordClient api) throws MissingPermissionsException, RateLimitException, DiscordException, HTTP429Exception{
+    public void adduser(IMessage m, IUser u,IDiscordClient api) throws MissingPermissionsException, RateLimitException, DiscordException{
         int x = search(u.getID());
         if(x==-1){
             Users.add(u.getID());
@@ -48,7 +47,7 @@ public class MessageOnMention implements Serializable{
         }
     }
     
-    public void removeuser(IMessage m,IDiscordClient api) throws MissingPermissionsException, RateLimitException, DiscordException, HTTP429Exception{
+    public void removeuser(IMessage m,IDiscordClient api) throws MissingPermissionsException, RateLimitException, DiscordException{
         if(Users.contains(m.getAuthor().getID())){
             Users.remove(m.getAuthor().getID());
             SendPM.Send(api, m.getAuthor().getID(), "You have been removed from the Message On Mention list");
@@ -58,7 +57,7 @@ public class MessageOnMention implements Serializable{
         Save();
     }
     
-    public void sendPMs(List<IUser> MO,IDiscordClient api, IMessage m) throws DiscordException, HTTP429Exception, MissingPermissionsException{
+    public void sendPMs(List<IUser> MO,IDiscordClient api, IMessage m) throws DiscordException, MissingPermissionsException, RateLimitException{
         String s="";
         if(m.mentionsEveryone()){
             s="Everyone was mentioned in "+m.getGuild().getName();
@@ -124,6 +123,7 @@ public class MessageOnMention implements Serializable{
       catch (IOException | ClassNotFoundException e) {
           Logger.getLogger(Instance.class.getName()).log(Level.SEVERE, "No file found, creating new array", e);
           Users = new ArrayList<String>();
+          Save();
       }
 }
     

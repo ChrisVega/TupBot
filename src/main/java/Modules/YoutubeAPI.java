@@ -80,7 +80,7 @@ public class YoutubeAPI {
             youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
                 public void initialize(HttpRequest request) throws IOException {
                 }
-            }).setApplicationName("Onii fam").build();
+            }).setApplicationName("").build();
 
             // Prompt the user to enter a query term.
             String queryTerm = s;

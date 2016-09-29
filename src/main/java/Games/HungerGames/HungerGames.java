@@ -1,7 +1,6 @@
 package Games.HungerGames;
 
 import Games.Games;
-import Games.HungerGames.Reaping;
 import java.util.ArrayList;
 
 public class HungerGames extends Games {

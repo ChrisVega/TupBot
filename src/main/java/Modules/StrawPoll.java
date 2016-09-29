@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.HTTP429Exception;
 import sx.blah.discord.util.MissingPermissionsException;
+import sx.blah.discord.util.RateLimitException;
 
 public class StrawPoll {
 
@@ -22,7 +22,7 @@ public class StrawPoll {
         votes=new int[size];
     }
     
-    public void addvote(IMessage message, int index) throws MissingPermissionsException, HTTP429Exception, DiscordException{
+    public void addvote(IMessage message, int index) throws MissingPermissionsException, DiscordException, RateLimitException{
         if(index>votes.length){
             message.reply(index+" is not a valid poll option.");
             return;

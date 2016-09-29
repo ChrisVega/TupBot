@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.HTTP429Exception;
 import sx.blah.discord.util.MissingPermissionsException;
+import sx.blah.discord.util.RateLimitException;
 
 public class Discordgamesessions {
 
@@ -28,7 +28,7 @@ public class Discordgamesessions {
         currentgames.remove(userid);
     }
 
-    public void addgame(String userid, Games game, IMessage message) throws MissingPermissionsException, HTTP429Exception, DiscordException {
+    public void addgame(String userid, Games game, IMessage message) throws MissingPermissionsException, DiscordException, RateLimitException {
 
         if (currentgames.containsKey(userid) && !currentgames.get(userid).gamedone()) {
             //if the user already has a game running the will have to overwrite their last game to continue

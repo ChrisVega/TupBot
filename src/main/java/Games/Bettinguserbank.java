@@ -12,8 +12,8 @@ import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.HTTP429Exception;
 import sx.blah.discord.util.MissingPermissionsException;
+import sx.blah.discord.util.RateLimitException;
 
 public class Bettinguserbank {
 
@@ -25,7 +25,7 @@ public class Bettinguserbank {
         currentbets = new HashMap<IChannel, Bettinggame>();
     }
 
-    public void newbetgame(IMessage m, int n, float b) throws MissingPermissionsException, HTTP429Exception, DiscordException {
+    public void newbetgame(IMessage m, int n, float b) throws MissingPermissionsException, DiscordException, RateLimitException {
         if (!currentbets.containsKey(m.getChannel())) {
             if (!useracc.containsKey(m.getAuthor())) {
                 adduser(m);
@@ -35,7 +35,7 @@ public class Bettinguserbank {
             }
             currentbets.put(m.getChannel(), new Bettinggame(n, m, b));
             start(m.getChannel());
-            m.reply("Start betting! Initial bet: " + b + " Number of bullets: " + n);
+            m.reply("Starting! Number of bullets: " + n);
         } else {
             m.reply("There is already a bet going on in this channel please wait");
         }
@@ -49,16 +49,14 @@ public class Bettinguserbank {
 
     }
 
-    public void adduser(IMessage m) throws MissingPermissionsException, HTTP429Exception, DiscordException {
+    public void adduser(IMessage m) throws MissingPermissionsException, DiscordException {
         if (!useracc.containsKey(m.getAuthor())) {
             useracc.put(m.getAuthor(), 1000.0f);
-            m.reply("Account created with $1000");
         } else {
-            m.reply("You already have an account");
         }
     }
 
-    public void getuser(IMessage m) throws MissingPermissionsException, HTTP429Exception, DiscordException {
+    public void getuser(IMessage m) throws MissingPermissionsException, DiscordException, RateLimitException {
         if (useracc.containsKey(m.getAuthor())) {
             m.reply("$" + useracc.get(m.getAuthor()));
         } else {
@@ -70,7 +68,7 @@ public class Bettinguserbank {
 
     }
 
-    public void addbet(IMessage m, float f, boolean s) throws MissingPermissionsException, HTTP429Exception, DiscordException {
+    public void addbet(IMessage m, float f, boolean s) throws MissingPermissionsException, DiscordException, RateLimitException {
         if (currentbets.containsKey(m.getChannel())) {
             if (!useracc.containsKey(m.getAuthor())) {
                 adduser(m);
@@ -97,7 +95,9 @@ public class Bettinguserbank {
                 ArrayList<better> betters = currentbets.get(c).getbetters();
                 try {
                     currentbets.get(c).calcearnings();
-                } catch (MissingPermissionsException | HTTP429Exception | DiscordException ex) {
+                } catch (MissingPermissionsException | DiscordException ex) {
+                    Logger.getLogger(Bettinguserbank.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RateLimitException ex) {
                     Logger.getLogger(Bettinguserbank.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 for (int i = 0; i < betters.size(); i++) {
@@ -107,13 +107,15 @@ public class Bettinguserbank {
                 if (currentbets.get(c).getoutcome()) {
                     try {
                         c.sendMessage(currentbets.get(c).getuser().mention() + " lost as has been kicked.");
-                    } catch (MissingPermissionsException | HTTP429Exception | DiscordException ex) {
+                    } catch (MissingPermissionsException | DiscordException ex) {
+                        Logger.getLogger(Bettinguserbank.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (RateLimitException ex) {
                         Logger.getLogger(Bettinguserbank.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
                     try {
                         c.sendMessage(currentbets.get(c).getuser().mention() + " won as was not kicked");
-                    } catch (MissingPermissionsException | HTTP429Exception | DiscordException ex) {
+                    } catch (MissingPermissionsException | DiscordException | RateLimitException ex) {
                         Logger.getLogger(Bettinguserbank.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
