@@ -1,5 +1,5 @@
 # TupBot
-A Discord bot made in java using the [Discord4J api wrapper](https://github.com/austinv11/Discord4J) and [JDA-Player] (https://github.com/DV8FromTheWorld/JDA-Player) for playing music. 
+A Discord bot made in java using the [Discord4J api wrapper](https://github.com/austinv11/Discord4J) and [JDA-Player](https://github.com/DV8FromTheWorld/JDA-Player) for playing music. 
 
 Allows use of commands through the text chat of discord servers that allow the bot to do things such as search Google, YouTube, Imgur, Giphy, Urban Dictionary, and returns the first post for a subreddit as well as moderator/admin tools such as mass wiping messages, vote kick, and vote mute. A full list of commands, and how to add your own, can be found below or if you added the bot to your server type #help to list all commands. 
 
