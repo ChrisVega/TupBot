@@ -1,5 +1,5 @@
-As of now this broken, I havn't been able to update it due to some personal issues, I have it working to some degree just not the degree that I like enough to share.
-If you pudate Discord for java and disable the music player as well as the API for Pandorabot it should work. I am working on getting a new music player as JDA is no longer supported. 
+As of now this broken, I haven't been able to update it due to some personal issues, I have it working to some degree just not the degree that I like enough to share.
+If you update Discord for java and disable the music player as well as the API for Pandorabot it should work. I am working on getting a new music player as JDA is no longer supported. 
 
 
 # TupBot
